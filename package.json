@@ -1,0 +1,27 @@
+{
+  "name": "http-simple-persistence",
+  "version": "1.0.0",
+  "description": "A http server that will act as a simple data store for a to-do apps.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jluangphasy/http-simple-persistence.git"
+  },
+  "author": "Johnny Luangphasy (https://github.com/jluangphasy)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jluangphasy/http-simple-persistence/issues"
+  },
+  "homepage": "https://github.com/jluangphasy/http-simple-persistence#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.4.5"
+  }
+}
