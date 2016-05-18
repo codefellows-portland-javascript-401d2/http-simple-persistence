@@ -1,4 +1,6 @@
-# Created by https://www.gitignore.io/api/osx,linux,node,vim
+### HTTP Simple Persistence ###
+post_output
+
 
 ### OSX ###
 .DS_Store
