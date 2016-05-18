@@ -2,6 +2,7 @@ var db = require('./database');
 var router = require('./router');
 var http = require('http');
 var url = require('url');
+var fs = require('fs');
 
 var server = http.createServer((request, response) => {
   
@@ -16,15 +17,25 @@ var server = http.createServer((request, response) => {
       });
     } else if (pathname === '/') {
       response.writeHead(200, {'Content-Type': 'text/html'});
-      response.write('Woof! You have reached the Home Page for the Doggie Information Center\n To view all dogs, use the /dogs path in the URL');
+      fs.createReadStream('./index.html').pipe(response);
     } else {
       response.writeHead(404, {'Content-Type': 'text/html'});
       response.write('404: Page Not Found');
     }
     
-    
-    
-  }// - - - - - - - - - - - - -
+  } else if (request.method === 'POST') {
+    var body = '';
+    request.on('data', (chunk) => {
+      body += chunk;
+    });
+    request.on('end', () => {
+     
+      var breed = body.split('=');
+      var jsoned = JSON.stringify(breed);
+      var writeStream = fs.createWriteStream(`./data/${breed[1]}.json`);
+      writeStream.write(jsoned);  
+    });
+  }
   
   
   
