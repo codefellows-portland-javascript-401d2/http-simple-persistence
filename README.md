@@ -9,7 +9,7 @@ A http server that will act as a simple data store for to-do apps.
 3. Run `git checkout jluangphasy`
 4. Run `npm install`
 
-Run `node index.js` to start server. Default port number is `8080`. So, the base url should be `http://localhost:8080/`.
+Run `node app.js` to start server. Default port number is `8080`. So, the base url should be `http://localhost:8080/`.
 
 ## API
 
