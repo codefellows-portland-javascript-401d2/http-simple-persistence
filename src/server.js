@@ -7,15 +7,19 @@ var fs = require('fs');
 var server = http.createServer((request, response) => {
   
   if (request.method === 'GET') {
-    console.log('start get request');
+
     var pathname = url.parse(request.url).pathname;
     
-    if (pathname === '/dogs') {
-      response.writeHead(200, {'Content-Type': 'application/json'});
+    if (request.url === '/dogs') {
+      console.log('GET /Dogs');
+      response.writeHead(200, {'Content-Type': 'text/html'});
       db.fetch(function(err, results) {
         if (err) throw err;
-        response.write(JSON.stringify(results));
+        console.log(results);
+        response.write(results);
+        response.end();
       });
+      
     } else if (pathname === '/') {
       response.writeHead(200, {'Content-Type': 'text/html'});
       fs.createReadStream('./index.html').pipe(response);

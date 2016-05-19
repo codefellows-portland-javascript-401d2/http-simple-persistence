@@ -8,12 +8,8 @@ db.directory = './data';
 
 db.fetch = function(callback) {
   fs.readdir(db.directory, function(err, fileNames) {
-    console.log(fileNames);
-    if (err) callback(err);
-    // fileNames.forEach(file => {
-    //   fs.readFile
-    // });
-    callback(null, fileNames);
+    if (err) throw err;
+    callback(null, fileNames.toString());
   });
 };
 
