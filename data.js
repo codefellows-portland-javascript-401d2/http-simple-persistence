@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const data = {};
 
-data.createTodo = (task, isChecked = false, callback) => {
+data.createTodo = (task, isChecked = false, res, callback) => {
   fs.readdir('data', (err, files) => {
     if (err) callback(err);
 
@@ -16,24 +16,24 @@ data.createTodo = (task, isChecked = false, callback) => {
 
       callback(null, {
         status: 'success',
-        results: `Create ${fileBaseName} in data directory.`
-      });
+        results: `${fileBaseName} has been created.`
+      }, res);
     });
   });
 };
 
-data.retrieveTodos = (callback) => {
+data.retrieveTodos = (res, callback) => {
   fs.readdir('data', (err, files) => {
     if (err) callback(err);
 
     callback(null, {
       status: 'success',
       results: files
-    });
+    }, res);
   });
 };
 
-data.modifyTodo = (id, query, callback) => {
+data.modifyTodo = (id, query, res, callback) => {
   let fileBaseName = `${id}.json`;
   let filePath = `data/${fileBaseName}`;
 
@@ -51,12 +51,12 @@ data.modifyTodo = (id, query, callback) => {
       callback(null, {
         status: 'success',
         results: `${fileBaseName} has been updated.`
-      });
+      }, res);
     });
   });
 };
 
-data.destroyTodo = (id, callback) => {
+data.destroyTodo = (id, res, callback) => {
   let fileBaseName = `${id}.json`;
   let filePath = `data/${fileBaseName}`;
 
@@ -64,7 +64,7 @@ data.destroyTodo = (id, callback) => {
     callback(null, {
       status: 'success',
       results: `${fileBaseName} has been removed.`
-    });
+    }, res);
   });
 };
 
