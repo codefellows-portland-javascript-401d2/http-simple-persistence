@@ -1,6 +1,6 @@
 # ![cf](http://i.imgur.com/7v5ASc8.png) HTTP Simple Persistence
 
-A http server that will act as a simple data store for to-do apps.
+A http server that will act as a simple data store for a to-do app.
 
 ## Getting Started
 
@@ -13,33 +13,33 @@ Run `node app.js` to start server. Default port number is `8080`. So, the base u
 
 ## API
 
-### List all to-do apps
+### List all to-do tasks
 
-A list of all of the json files (to-do apps) in the data folder.
+A list of all of the json files (to-do tasks) in the data folder.
 
 ```
 GET /todos
 ```
 
-### Add to-do app
+### Add to-do task
 
-Data coming in will create a json file (to-do app) in the data folder.
+Data coming in will create a json file (to-do task) in the data folder.
 
 ```
 POST /todos
 ```
 
-### Update to-do app
+### Update to-do task
 
-Data coming in will be saved to a json file (to-do app) in the data folder, updating it entirely.
+Data coming in will be saved to a json file (to-do task) in the data folder, updating it entirely.
 
 ```
 PUT /todos/:id
 ```
 
-### Remove to-do app
+### Remove to-do task
 
-The json file (to-do app) will be removed in the data folder.
+The json file (to-do task) will be removed in the data folder.
 
 ```
 DELETE /todos/:id

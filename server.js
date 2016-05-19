@@ -5,7 +5,18 @@ const server = {};
 
 server.new = () => {
   return http.createServer((req, res) => {
-    res.end();
+    let statusCode = 200;
+    let data = routes.routing(req, res);
+
+    if (!data) {
+      statusCode = 400;
+      data = {
+        error: 'Bad Request'
+      };
+    }
+
+    res.writeHead(statusCode, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(data));
   });
 };
 

@@ -1,7 +1,7 @@
 {
   "name": "http-simple-persistence",
   "version": "1.0.0",
-  "description": "A http server that will act as a simple data store for a to-do apps.",
+  "description": "A http server that will act as a simple data store for a to-do app.",
   "main": "app.js",
   "directories": {
     "test": "tests"
