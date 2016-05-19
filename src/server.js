@@ -7,6 +7,7 @@ var fs = require('fs');
 var server = http.createServer((request, response) => {
   
   if (request.method === 'GET') {
+    console.log('start get request');
     var pathname = url.parse(request.url).pathname;
     
     if (pathname === '/dogs') {
@@ -24,16 +25,25 @@ var server = http.createServer((request, response) => {
     }
     
   } else if (request.method === 'POST') {
+    
+    console.log('start post rquest');
     var body = '';
     request.on('data', (chunk) => {
       body += chunk;
+      console.log(body);
     });
+    
+    
     request.on('end', () => {
      
-      var breed = body.split('=');
-      var jsoned = JSON.stringify(breed);
-      var writeStream = fs.createWriteStream(`./data/${breed[1]}.json`);
-      writeStream.write(jsoned);  
+      console.log(body);
+      
+      var parsedBody = JSON.parse(body);
+      var thisBreed = parsedBody.breed;
+
+      var writeStream = fs.createWriteStream(`./data/${thisBreed}.json`);
+      writeStream.write(body);  
+      response.end();
     });
   }
   

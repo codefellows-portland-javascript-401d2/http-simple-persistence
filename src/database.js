@@ -1,15 +1,18 @@
 const fs = require('fs');
 var path = require('path');
 
+
 var db = {};
 
+db.directory = './data';
+
 db.fetch = function(callback) {
-  fs.readdir('./data', (err, fileNames) => {
+  fs.readdir(db.directory, function(err, fileNames) {
     console.log(fileNames);
     if (err) callback(err);
-    fileNames.map(function(item) {
-      return path.parse(item).name;
-    });
+    // fileNames.forEach(file => {
+    //   fs.readFile
+    // });
     callback(null, fileNames);
   });
 };
