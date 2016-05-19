@@ -30,8 +30,8 @@ routes.post = (reqUriSegments, reqQuery) => {
 };
 
 routes.put = (reqUriSegments, reqQuery) => {
-  if (reqUriSegments[1] === 'todos' && /[1-9]/.test(reqUriSegments[2])) {
-    return data.modifyTodo(reqUriSegments[2]);
+  if (reqUriSegments[1] === 'todos' && /[1-9]/.test(reqUriSegments[2]) && (reqQuery.task || reqQuery.isCompleted)) {
+    return data.modifyTodo(reqUriSegments[2], reqQuery);
   }
 };
 
