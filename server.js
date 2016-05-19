@@ -2,17 +2,16 @@ const http = require('http');
 const routes = require('./routes');
 
 const server = {};
-
-server.req;
-server.res;
+let serverRes;
 
 server.new = () => {
   return http.createServer((req, res) => {
-    routes.routing(req, res, server.output);
+    serverRes = res;
+    routes.routing(req, res, serverResponse);
   });
 };
 
-server.output = (err, data, res) => {
+const serverResponse = (err, data) => {
   let statusCode = 400;
   let resData = {
     status: 'error',
@@ -22,15 +21,11 @@ server.output = (err, data, res) => {
   };
 
   if (data) {
-    statusCode = 200;
-    resData = {
-      status: 'success',
-      results: data
-    };
+    resData = data;
   }
 
-  res.writeHead(statusCode, {'Content-Type': 'application/json'});
-  res.end(JSON.stringify(resData));
+  serverRes.writeHead(statusCode, {'Content-Type': 'application/json'});
+  serverRes.end(JSON.stringify(resData));
 };
 
 module.exports = server;
