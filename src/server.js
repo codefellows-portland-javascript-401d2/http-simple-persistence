@@ -7,80 +7,84 @@ var fs = require('fs');
 
 var server = http.createServer((request, response) => {
   
+  var baseName = path.parse(request.url).base;
+  
   if (request.method === 'GET') {
 
-    var pathname = url.parse(request.url).pathname;
-    var basename = path.parse(request.url).base;
-    
     db.fetchAll(function(err, array) {
-      
-      if (!basename) basename = '';
-      
-      var index = array.indexOf(basename);
-      console.log('which item in array: ', array[index]);
-      console.log('basename', basename);
-      
+      var index = array.indexOf(baseName);
+      // if requested resource exists in database
       if (index !== -1) {
-        
         db.read(array[index], function(contents) {
-          response.writeHead(200, {'Content-Type': 'text/html'});
+          response.writeHead(200, {'Content-Type': 'application/json'});
           response.write(contents);
           response.end();
         });
-
-      }
-       else {
-         
+      } else {
+         // List All Dogs
         if (request.url === '/dogs') {
-          console.log('GET /Dogs');
           response.writeHead(200, {'Content-Type': 'text/html'});
           db.fetchAll(function(err, results) {
             if (err) throw err;
-            console.log(results);
             response.write(results.toString());
             response.end();
           });
-          
-        } else if (pathname === '/') {
-          console.log('index page is here');
+          //Index Page
+        } else if (request.url === '/') {
           response.writeHead(200, {'Content-Type': 'text/html'});
           response.write('index page!');
           response.end();
-          
+          // 404 
         } else {
           response.writeHead(404, {'Content-Type': 'text/html'});
           response.write('404: Page Not Found');
           response.end();
         }
-
       }
-      
     });
+      
+  } // End of GET block - - - - - - - -
+  
+  else if (request.method === 'POST') {
     
-    
-    
-  } else if (request.method === 'POST') {
-    
-    console.log('start post rquest');
     var body = '';
     request.on('data', (chunk) => {
       body += chunk;
-      console.log(body);
     });
     
-    
     request.on('end', () => {
-     
-      console.log(body);
-      
       var parsedBody = JSON.parse(body);
       var thisBreed = parsedBody.breed;
-
       var writeStream = fs.createWriteStream(`./data/${thisBreed}.json`);
       writeStream.write(body);  
       response.end();
     });
   }
+
+  else if (request.method === 'PUT') {
+    console.log('PUT request started');
+    var body = '';
+    request.on('data', chunk => {
+      body += chunk;  
+    });
+    request.on('end', () => {
+      console.log('request body: ', body);
+      var writeStream = fs.createWriteStream(`./data/${baseName}`);
+      writeStream.write(body); 
+      response.end();
+    });
+  }
+ 
+  
+  else if (request.method === 'DELETE') {
+    
+  }
+  
+  else {
+    //bad verb
+  }
+  
+  
   
   
   
