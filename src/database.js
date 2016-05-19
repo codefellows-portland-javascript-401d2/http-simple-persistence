@@ -19,10 +19,9 @@ db.read = function(file, callback) {
   });
 };
 
-db.write = function(path, callback) {
-  var file = fs.createWriteStream(path, {encoding: 'utf-8'});
-  file.write(resource);
-  callback();
+db.write = function(newFile, content) {
+  var writeStream = fs.createWriteStream(`${db.directory}/${newFile}`);
+  writeStream.write(content);       
 };
 
 db.destroy = function(path, callback) {

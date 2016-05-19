@@ -3,7 +3,6 @@ var router = require('./router');
 var http = require('http');
 var url = require('url');
 var path = require('path');
-var fs = require('fs');
 
 var server = http.createServer((request, response) => {
   
@@ -55,27 +54,26 @@ var server = http.createServer((request, response) => {
     request.on('end', () => {
       var parsedBody = JSON.parse(body);
       var thisBreed = parsedBody.breed;
-      var writeStream = fs.createWriteStream(`./data/${thisBreed}.json`);
-      writeStream.write(body);  
+      
+      db.write(`${thisBreed}.json`, body);
+
       response.end();
     });
   }
 
   else if (request.method === 'PUT') {
-    console.log('PUT request started');
+
     var body = '';
     request.on('data', chunk => {
       body += chunk;  
     });
     request.on('end', () => {
-      console.log('request body: ', body);
-      var writeStream = fs.createWriteStream(`./data/${baseName}`);
-      writeStream.write(body); 
+
+      db.write(baseName, body);
       response.end();
     });
   }
- 
-  
+
   else if (request.method === 'DELETE') {
     db.destroy(baseName, (err) => {
       if (err) {
@@ -91,12 +89,10 @@ var server = http.createServer((request, response) => {
   }
   
   else {
-    //bad verb
+    response.writeHead(400, {'Content-Type': 'text/html'});
+    response.write('Bad Verb');
+    response.end();
   }
-  
-  
-  
-  
   
 });
 
