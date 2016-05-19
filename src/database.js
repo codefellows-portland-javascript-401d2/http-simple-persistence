@@ -19,10 +19,17 @@ db.read = function(file, callback) {
   });
 };
 
-db.write = function(path, resource, callback) {
+db.write = function(path, callback) {
   var file = fs.createWriteStream(path, {encoding: 'utf-8'});
   file.write(resource);
   callback();
+};
+
+db.destroy = function(path, callback) {
+  fs.unlink(`${db.directory}/${path}`, (err) => {
+    if (err) callback(err);
+    else callback();
+  });
 };
 
 module.exports = db;

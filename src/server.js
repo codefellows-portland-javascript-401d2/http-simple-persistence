@@ -77,7 +77,17 @@ var server = http.createServer((request, response) => {
  
   
   else if (request.method === 'DELETE') {
-    
+    db.destroy(baseName, (err) => {
+      if (err) {
+        response.writeHead(400, {'Content-Type': 'text/html'});
+        response.write(`${baseName} not found in database, sorry.`);
+        response.end();
+      } else {
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.write(`${baseName} deleted from database, are you happy now?`);
+        response.end();
+      }
+    });
   }
   
   else {
