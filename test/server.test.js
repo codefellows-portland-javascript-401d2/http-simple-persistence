@@ -7,33 +7,36 @@ const server = require('../src/server');
 chai.use(chaiHttp);
 
 describe('running http server', () => {
-  // WIP 
-  it(' responds with list on GET /dogs', (done) => { 
-    assert.equal('true', false);
-    done();
-  });
-
-  it('puts', (done) => {
-    assert.equal('true', false);
-    done();
-  });
   
-  it('receives post request', (done) => {
+  const request = chai.request(server);
+  
+  // // WIP 
+  // it(' responds with list on GET /dogs', (done) => { 
+  //   assert.equal('true', false);
+  //   done();
+  // });
+
+  // it('puts', (done) => {
+  //   assert.equal('true', false);
+  //   done();
+  // });
+  
+  it('END 2 End post request', (done) => {
     var post = '{"breed": "doberman"}';
-    chai.request(server)
+    request
         .post('/')
         .send(post)
-        .end((err, response) => { 
-  
-          if (err) throw err;
-          fs.readFile('./data/doberman.json', (err, data) => {
-            if (err) throw err;
-            assert.equal(data.toString(), post);  
-            done();
-          });  
-    
-          
-        });
+        .then(res => {
+          return res.id;
+        })
+        .then( id => {
+          return request.get(`/dogs/${id}`);
+        })
+        .then( res => {
+          assert.equal(res.statusCode, 200);
+          done();
+        })
+        .catch( done );
         
   });
   
