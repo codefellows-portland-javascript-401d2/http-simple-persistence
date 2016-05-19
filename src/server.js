@@ -2,7 +2,7 @@ var db = require('./database');
 var http = require('http');
 var path = require('path');
 
-// db.createDir();
+db.createDir();
 
 var server = http.createServer((request, response) => {
   
