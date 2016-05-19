@@ -22,9 +22,12 @@ var server = http.createServer((request, response) => {
       
       if (index !== -1) {
         
-        response.writeHead(200, {'Content-Type': 'text/html'});
-        response.write('yes it is here!');
-        response.end();
+        db.read(array[index], function(contents) {
+          response.writeHead(200, {'Content-Type': 'text/html'});
+          response.write(contents);
+          response.end();
+        });
+
       }
        else {
          
@@ -41,7 +44,6 @@ var server = http.createServer((request, response) => {
         } else if (pathname === '/') {
           console.log('index page is here');
           response.writeHead(200, {'Content-Type': 'text/html'});
-          // fs.createReadStream('./index.html').pipe(response);
           response.write('index page!');
           response.end();
           
