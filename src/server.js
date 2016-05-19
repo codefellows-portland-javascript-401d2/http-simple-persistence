@@ -1,13 +1,14 @@
 var db = require('./database');
-var router = require('./router');
 var http = require('http');
-var url = require('url');
 var path = require('path');
+
+// db.createDir();
 
 var server = http.createServer((request, response) => {
   
   var baseName = path.parse(request.url).base;
   
+  //  GET - - - - - - - - - - - - -- - - - - - - - - - - - - -
   if (request.method === 'GET') {
 
     db.fetchAll(function(err, array) {
@@ -41,39 +42,32 @@ var server = http.createServer((request, response) => {
         }
       }
     });
-      
-  } // End of GET block - - - - - - - -
-  
+  } 
+  //  POST  - - - - - - - - - - - - - - - 
   else if (request.method === 'POST') {
-    
     var body = '';
     request.on('data', (chunk) => {
       body += chunk;
     });
-    
     request.on('end', () => {
       var parsedBody = JSON.parse(body);
       var thisBreed = parsedBody.breed;
-      
       db.write(`${thisBreed}.json`, body);
-
       response.end();
     });
-  }
-
+  } 
+   //  PUT  - - - - - - - - - - - - - - -
   else if (request.method === 'PUT') {
-
     var body = '';
     request.on('data', chunk => {
       body += chunk;  
     });
     request.on('end', () => {
-
       db.write(baseName, body);
       response.end();
     });
-  }
-
+  } 
+//  DELETE - - - - - - - - - - - - - - - - 
   else if (request.method === 'DELETE') {
     db.destroy(baseName, (err) => {
       if (err) {
@@ -86,14 +80,13 @@ var server = http.createServer((request, response) => {
         response.end();
       }
     });
-  }
+  } 
   
   else {
     response.writeHead(400, {'Content-Type': 'text/html'});
     response.write('Bad Verb');
     response.end();
   }
-  
 });
 
 module.exports = server;

@@ -1,10 +1,15 @@
 const fs = require('fs');
-var path = require('path');
-
-
+var mkdirp = require('mkdirp');
 var db = {};
 
 db.directory = './data';
+
+db.createDir = function() {
+  mkdirp('./data', function(err) {
+    if (err) throw err;
+    else console.log('/data created in project folder');
+  });
+};
 
 db.fetchAll = function(callback) {
   fs.readdir(db.directory, function(err, fileNames) {
