@@ -1,10 +1,37 @@
 ![cf](http://i.imgur.com/7v5ASc8.png) http-simple-persistence
 ====
 
-Lab assignment instructions are located [here](LAB.md)
+## API server for books, by Dave and David
 
-Let me know if you need a team branch added.
+##### To install, clone this repo then run
 
-Remember to add _your_ .eslintrc file!
+    npm install
+    ./index.js [port]
 
-Replace contents of `README.md` with your proper developer focused project instructions.
+##### Available endpoints and methods:
+- GET
+  - /books: gets a list of available books
+  - /books/resource[/resource]: returns all data for each item listed.
+- POST
+  - /books: adds a new book to the database
+- PUT
+  - /books/resource: replaces properties of the specified resource with information provided
+- DELETE
+  - /books/resource: deleted the specified resource
+
+##### Data is sent and received in JSON format, as follows:
+
+    {
+      "title" : "Gone With The Wind",
+      "pub_year" : 1964,
+      "author" : "Margaret Mitchell",
+      "genre" : "fiction",
+      "read" : false,
+      "resource" : "gone_with_the_wind_1964"
+    }
+
+  title and pub_year are required as they are combined to create the resource ID.
+
+##### Tests are available:
+
+    npm test
